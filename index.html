@@ -14,55 +14,38 @@
 
 <body>
 
-  <!-- NAVBAR -->
-  <nav class="navbar">
-    <div class="nav-brand">
-      <span class="brand-name">Nack</span>
-    </div>
-    <div class="nav-tabs">
-      <button class="nav-tab active" data-view="dashboard" id="tab-dashboard">
-        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="3" y="3" width="7" height="7" rx="1" />
-          <rect x="14" y="3" width="7" height="7" rx="1" />
-          <rect x="3" y="14" width="7" height="7" rx="1" />
-          <rect x="14" y="14" width="7" height="7" rx="1" />
-        </svg>
-        <span>หน้าแรก</span>
-      </button>
-      <button class="nav-tab" data-view="history" id="tab-history">
-        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="10" />
-          <polyline points="12 6 12 12 16 14" />
-        </svg>
-        <span>ประวัติ</span>
-      </button>
+  <div class="app-shell">
 
-    </div>
-    <div class="nav-actions">
-      <button class="btn-icon" id="exportBtn" title="ส่งออกข้อมูล (Export JSON)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-          <polyline points="7 10 12 15 17 10" />
-          <line x1="12" y1="15" x2="12" y2="3" />
-        </svg>
-      </button>
-      <button class="btn-icon" id="importBtn" title="นำเข้าข้อมูล (Import JSON)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-          <polyline points="17 8 12 3 7 8" />
-          <line x1="12" y1="3" x2="12" y2="15" />
-        </svg>
-      </button>
-      <input type="file" id="importFileInput" accept=".json" style="display:none">
-      <button class="btn-icon" id="themeToggleBtn" title="ปรับธีม">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="4" />
-          <path
-            d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
-        </svg>
-      </button>
-    </div>
-  </nav>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <div class="nav-brand">
+        <span class="brand-name">Nack</span>
+      </div>
+      <div class="nav-actions">
+        <button class="btn-icon" id="exportBtn" title="ส่งออกข้อมูล (Export JSON)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+        </button>
+        <button class="btn-icon" id="importBtn" title="นำเข้าข้อมูล (Import JSON)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="17 8 12 3 7 8" />
+            <line x1="12" y1="3" x2="12" y2="15" />
+          </svg>
+        </button>
+        <input type="file" id="importFileInput" accept=".json" style="display:none">
+        <button class="btn-icon" id="themeToggleBtn" title="ปรับธีม">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="4" />
+            <path
+              d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+          </svg>
+        </button>
+      </div>
+    </nav>
 
   <!-- MAIN CONTENT -->
   <main class="main-content">
@@ -180,12 +163,33 @@
 
   </main>
 
-  <!-- FAB -->
-  <button class="fab" id="fabAdd" title="เพิ่มรายการ">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-      <path d="M12 5v14M5 12h14" />
-    </svg>
-  </button>
+  <!-- BOTTOM TAB BAR -->
+  <div class="bottom-nav">
+    <button class="nav-tab active" data-view="dashboard" id="tab-dashboard">
+      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="7" height="7" rx="1" />
+        <rect x="14" y="3" width="7" height="7" rx="1" />
+        <rect x="3" y="14" width="7" height="7" rx="1" />
+        <rect x="14" y="14" width="7" height="7" rx="1" />
+      </svg>
+      <span>หน้าแรก</span>
+    </button>
+    
+    <button class="bottom-nav-fab" id="fabAdd" title="เพิ่มรายการ">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="20" height="20">
+        <line x1="12" y1="5" x2="12" y2="19" />
+        <line x1="5" y1="12" x2="19" y2="12" />
+      </svg>
+    </button>
+
+    <button class="nav-tab" data-view="history" id="tab-history">
+      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10" />
+        <polyline points="12 6 12 12 16 14" />
+      </svg>
+      <span>ประวัติ</span>
+    </button>
+  </div>
 
   <!-- ADD TRANSACTION MODAL -->
   <div class="modal-overlay hidden" id="addModal">
@@ -330,6 +334,8 @@
 
   <!-- TOAST NOTIFICATION -->
   <div class="toast hidden" id="toastMsg"></div>
+
+  </div> <!-- END APP-SHELL -->
 
   <script src="app.js"></script>
 </body>
