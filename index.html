@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MoneyMind - แอปบันทึกรายรับรายจ่ายสำหรับนักศึกษา ใช้งานง่าย ไม่ต้องสมัครสมาชิก">
+  <title>MoneyMind - บันทึกรายรับรายจ่าย</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="brand-name">Nack</span>
+    </div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" data-view="dashboard" id="tab-dashboard">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7" rx="1" />
+          <rect x="14" y="3" width="7" height="7" rx="1" />
+          <rect x="3" y="14" width="7" height="7" rx="1" />
+          <rect x="14" y="14" width="7" height="7" rx="1" />
+        </svg>
+        <span>หน้าแรก</span>
+      </button>
+      <button class="nav-tab" data-view="history" id="tab-history">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10" />
+          <polyline points="12 6 12 12 16 14" />
+        </svg>
+        <span>ประวัติ</span>
+      </button>
+
+    </div>
+    <div class="nav-actions">
+      <button class="btn-icon" id="exportBtn" title="ส่งออกข้อมูล (Export JSON)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3" />
+        </svg>
+      </button>
+      <button class="btn-icon" id="importBtn" title="นำเข้าข้อมูล (Import JSON)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="17 8 12 3 7 8" />
+          <line x1="12" y1="3" x2="12" y2="15" />
+        </svg>
+      </button>
+      <input type="file" id="importFileInput" accept=".json" style="display:none">
+      <button class="btn-icon" id="themeToggleBtn" title="ปรับธีม">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="4" />
+          <path
+            d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- DASHBOARD -->
+    <section class="view active" id="view-dashboard">
+      <div class="dashboard-header-row">
+        <h2 class="dashboard-title">สรุปรายรับรายจ่าย</h2>
+        <div class="month-nav">
+          <button class="btn-icon-sm" id="prevMonthBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+          <span class="month-label" id="dashboardMonthLabel">พฤษภาคม 2569</span>
+          <button class="btn-icon-sm" id="nextMonthBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14">
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="balance-hero">
+        <div class="balance-label">ยอดเงินคงเหลือสุทธิ</div>
+        <div class="balance-amount" id="balanceAmount">฿0.00</div>
+      </div>
+
+      <div class="summary-grid">
+        <div class="summary-card income-card">
+          <div class="summary-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M12 19V5M5 12l7-7 7 7" />
+            </svg>
+          </div>
+          <div>
+            <div class="summary-label">รายรับ</div>
+            <div class="summary-value" id="totalIncome">฿0.00</div>
+          </div>
+        </div>
+        <div class="summary-card expense-card">
+          <div class="summary-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M12 5v14M19 12l-7 7-7-7" />
+            </svg>
+          </div>
+          <div>
+            <div class="summary-label">รายจ่าย</div>
+            <div class="summary-value" id="totalExpense">฿0.00</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="charts-grid">
+        <div class="card chart-card">
+          <h3 class="card-title">รายจ่ายตามหมวดหมู่</h3>
+          <div class="chart-wrapper"><canvas id="categoryChart"></canvas></div>
+          <div id="categoryLegend" class="chart-legend"></div>
+        </div>
+        <div class="card chart-card">
+          <h3 class="card-title">แนวโน้ม 6 เดือน</h3>
+          <div class="chart-wrapper"><canvas id="trendChart"></canvas></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">รายการล่าสุด</h3>
+          <button class="btn-text" data-view="history">ดูทั้งหมด →</button>
+        </div>
+        <div class="transaction-list" id="recentTransactions">
+          <div class="empty-state">
+            <div class="empty-icon-svg">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="40" height="40">
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+              </svg>
+            </div>
+            <p>ยังไม่มีรายการ</p>
+            <p class="empty-sub">กด + เพื่อเพิ่มรายการแรก</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HISTORY -->
+    <section class="view" id="view-history">
+      <div class="view-header">
+        <h2 class="view-title">ประวัติรายการ</h2>
+      </div>
+      <div class="filter-bar">
+        <div class="search-box">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <path d="M21 21l-4.35-4.35" />
+          </svg>
+          <input type="text" class="search-input" id="searchInput" placeholder="ค้นหารายการ...">
+        </div>
+        <div class="filter-chips">
+          <button class="chip active" data-filter="all">ทั้งหมด</button>
+          <button class="chip" data-filter="income">รายรับ</button>
+          <button class="chip" data-filter="expense">รายจ่าย</button>
+        </div>
+        <div class="filter-selects">
+          <select class="select-input" id="filterMonth">
+            <option value="">ทุกเดือน</option>
+          </select>
+          <select class="select-input" id="filterCategory">
+            <option value="">ทุกหมวด</option>
+          </select>
+        </div>
+      </div>
+      <div id="historyList" class="history-list"></div>
+    </section>
+
+
+
+  </main>
+
+  <!-- FAB -->
+  <button class="fab" id="fabAdd" title="เพิ่มรายการ">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+      <path d="M12 5v14M5 12h14" />
+    </svg>
+  </button>
+
+  <!-- ADD TRANSACTION MODAL -->
+  <div class="modal-overlay hidden" id="addModal">
+    <div class="modal" id="addModalContent">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalTitle">เพิ่มรายการ</h2>
+        <button class="btn-close" id="closeModal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg></button>
+      </div>
+      <div class="type-toggle">
+        <button class="type-btn" data-type="expense" id="typeExpense">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <path d="M12 5v14M19 12l-7 7-7-7" />
+          </svg>
+          รายจ่าย
+        </button>
+        <button class="type-btn" data-type="income" id="typeIncome">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+            <path d="M12 19V5M5 12l7-7 7 7" />
+          </svg>
+          รายรับ
+        </button>
+      </div>
+      <div class="amount-input-wrapper">
+        <span class="currency-symbol">฿</span>
+        <input type="number" class="amount-input" id="amountInput" placeholder="0.00" min="0" step="0.01">
+      </div>
+      <div class="field-group">
+        <label class="field-label">หมวดหมู่</label>
+        <div class="category-grid" id="categoryGrid"></div>
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="dateInput">วันที่</label>
+        <input type="date" class="input" id="dateInput">
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="noteInput">หมายเหตุ</label>
+        <input type="text" class="input" id="noteInput" placeholder="เช่น ข้าวกลางวัน, ค่าแท็กซี่...">
+      </div>
+      <button class="btn-primary" id="saveTransactionBtn">บันทึกรายการ</button>
+    </div>
+  </div>
+
+  <!-- SETTINGS PANEL -->
+  <div class="panel-overlay hidden" id="themePanelOverlay">
+    <div class="theme-panel" id="themePanel">
+      <div class="panel-header">
+        <h3 id="settingsPanelTitle">⚙️ การตั้งค่า</h3>
+        <button class="btn-close" id="closeThemePanel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg></button>
+      </div>
+
+      <!-- Settings Tabs -->
+      <div class="settings-tabs">
+        <button class="settings-tab active" id="settingsTabTheme" data-tab="theme">ปรับแต่งธีม</button>
+        <button class="settings-tab" id="settingsTabCategories" data-tab="categories">จัดการหมวดหมู่</button>
+      </div>
+
+      <!-- Settings Content: Theme -->
+      <div class="settings-content active" id="settingsContentTheme">
+        <div class="theme-section">
+          <div class="theme-section-title">โหมด</div>
+          <div class="mode-toggle">
+            <button class="mode-btn" id="modeDark">🌙 มืด</button>
+            <button class="mode-btn" id="modeLight">☀️ สว่าง</button>
+          </div>
+        </div>
+        <div class="theme-section">
+          <div class="theme-section-title">สีธีม</div>
+          <div class="preset-colors" id="presetColors">
+            <button class="preset-dot" data-color="#818cf8" style="background:#818cf8" title="Indigo"></button>
+            <button class="preset-dot" data-color="#60a5fa" style="background:#60a5fa" title="Blue"></button>
+            <button class="preset-dot" data-color="#34d399" style="background:#34d399" title="Green"></button>
+            <button class="preset-dot" data-color="#f472b6" style="background:#f472b6" title="Pink"></button>
+            <button class="preset-dot" data-color="#fb923c" style="background:#fb923c" title="Orange"></button>
+            <button class="preset-dot" data-color="#a78bfa" style="background:#a78bfa" title="Violet"></button>
+            <button class="preset-dot" data-color="#2dd4bf" style="background:#2dd4bf" title="Teal"></button>
+            <button class="preset-dot" data-color="#facc15" style="background:#facc15" title="Yellow"></button>
+          </div>
+        </div>
+        <div class="theme-section">
+          <div class="theme-section-title">เลือกสีเอง</div>
+          <div class="custom-color-row">
+            <input type="color" id="customColorPicker" value="#818cf8" class="color-picker">
+            <span id="colorHexLabel">#818cf8</span>
+            <button class="btn-sm" id="applyCustomColor">ใช้สีนี้</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings Content: Categories -->
+      <div class="settings-content" id="settingsContentCategories">
+        <!-- Type Selection Toggle -->
+        <div class="theme-section">
+          <div class="theme-section-title">ประเภทหมวดหมู่</div>
+          <div class="type-toggle-settings">
+            <button class="type-settings-btn active" id="settingsTypeExpense" data-type="expense">รายจ่าย</button>
+            <button class="type-settings-btn" id="settingsTypeIncome" data-type="income">รายรับ</button>
+          </div>
+        </div>
+
+        <!-- Dynamic Category List -->
+        <div class="theme-section">
+          <div class="theme-section-title">หมวดหมู่ที่มีอยู่</div>
+          <div class="settings-cat-list" id="settingsCategoryList"></div>
+        </div>
+
+        <!-- Add Category Form -->
+        <div class="theme-section add-cat-section">
+          <div class="theme-section-title">เพิ่มหมวดหมู่ใหม่</div>
+          <div class="add-cat-form">
+            <input type="text" class="input" id="newCategoryName" placeholder="ระบุชื่อหมวดหมู่...">
+            <div class="add-cat-color-row">
+              <label class="color-label">เลือกสี:</label>
+              <input type="color" id="newCategoryColor" value="#818cf8" class="color-picker-sm">
+              <button class="btn-primary-sm" id="saveNewCategoryBtn">เพิ่ม</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+
+  <!-- CONFIRM DELETE MODAL -->
+  <div class="modal-overlay hidden" id="confirmModal">
+    <div class="modal modal-sm">
+      <h3 class="modal-title">ยืนยันการลบ</h3>
+      <p class="confirm-text">คุณต้องการลบรายการนี้ใช่ไหม?</p>
+      <div class="modal-actions">
+        <button class="btn-outlined" id="cancelDelete">ยกเลิก</button>
+        <button class="btn-danger" id="confirmDelete">ลบ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="toast hidden" id="toastMsg"></div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
